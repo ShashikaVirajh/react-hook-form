@@ -4,7 +4,14 @@ import { FC } from 'react';
 import { TextInput } from './components/text-input/text-input.component';
 
 export const App: FC = () => {
-  const { control, formState, handleSubmit } = useForm<FieldValues>();
+  const formData = {
+    username: '',
+    password: ''
+  };
+
+  const { control, formState, handleSubmit } = useForm<FieldValues>({ defaultValues: formData });
+
+  console.log(control);
 
   const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues) => {
     console.log(data);
