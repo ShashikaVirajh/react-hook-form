@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '@mui/material';
+import { FC } from 'react';
+import { TextInput } from './components/text-input/text-input.component';
 
-function App() {
+export const App: FC = () => {
+  const { control, formState, handleSubmit } = useForm<TFormData>();
+
+  const onSubmit: SubmitHandler<TFormData> = (data: TFormData) => {
+    console.log(data);
+  };
+
+  const usernameRules = {
+    required: { value: true, message: 'Username is required' }
+  };
+
+  const passwordRules = {
+    required: { value: true, message: 'Password is required' },
+    minLength: { value: 6, message: 'Password must be at least 6 characters long' },
+    maxLength: { value: 20, message: 'Password must be at most 20 characters long' }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <TextInput name='username' control={control} label='Username' rules={usernameRules} />
 
-export default App;
+      <TextInput
+        name='password'
+        control={control}
+        label='Password'
+        type='password'
+        rules={passwordRules}
+      />
+
+      <Button type='submit' disabled={formState.isSubmitting}>
+        Submit
+      </Button>
+    </form>
+  );
+};
+
+type TFormData = {
+  username: string;
+  password: string;
+};
