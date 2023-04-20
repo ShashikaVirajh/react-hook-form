@@ -32,7 +32,6 @@ export const TextInput: FC<TextInputProps> = ({
       render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
         return (
           <TextField
-            // inputRef={ref}
             label={label}
             type={type}
             placeholder={placeholder}

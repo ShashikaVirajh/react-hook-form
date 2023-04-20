@@ -9,10 +9,14 @@ export const App: FC = () => {
     password: ''
   };
 
-  const { control, formState, handleSubmit } = useForm<FieldValues>({ defaultValues: formData });
+  const { control, formState, handleSubmit, getValues } = useForm<FieldValues>({
+    defaultValues: formData
+  });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues) => {
-    alert('Username: ' + data.username + ' \nPassword: ' + data.password);
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log('Username: ' + data.username);
+    console.log('Password: ' + data.password);
+    console.log(getValues());
   };
 
   const usernameRules = {
