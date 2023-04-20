@@ -1,16 +1,14 @@
-import { TextField, TextFieldProps } from '@mui/material';
+import { MenuItem, Select } from '@mui/material';
 import { CSSProperties, FC } from 'react';
 import { Controller, Control, FieldValues, RegisterOptions } from 'react-hook-form';
 
-export const TextInput: FC<TextInputProps> = ({
+export const DropdownInput: FC<DropdownInputProps> = ({
   name,
   label,
-  placeholder,
+  options,
   rules,
   style,
-  helperText,
   control,
-  type = 'text',
   ...rest
 }) => {
   return (
@@ -18,35 +16,39 @@ export const TextInput: FC<TextInputProps> = ({
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
+      render={({ field: { onChange, value } }) => {
         return (
-          <TextField
+          <Select
             label={label}
-            type={type}
-            placeholder={placeholder}
+            value={value}
             variant='outlined'
-            error={!!error}
-            helperText={helperText || error?.message}
             fullWidth
             onChange={(event) => onChange(event.target.value)}
-            onBlur={onBlur}
-            value={value}
             style={{ ...style }}
             {...rest}
-          />
+          >
+            {options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
         );
       }}
     />
   );
 };
 
-type TextInputProps = {
+type DropdownInputProps = {
   name: keyof FieldValues;
   label: string;
-  type?: string;
-  placeholder?: string;
+  options: Option[];
   style?: CSSProperties;
-  helperText?: string;
   control: Control<FieldValues>;
   rules?: RegisterOptions<FieldValues>;
-} & Omit<TextFieldProps, 'helperText'>;
+};
+
+type Option = {
+  label: string;
+  value: string | number;
+};
