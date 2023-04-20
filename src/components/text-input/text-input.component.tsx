@@ -5,12 +5,12 @@ import { useFormContext, Controller, Control, FieldValues, RegisterOptions } fro
 type TextInputProps = {
   name: keyof FieldValues;
   label: string;
+  type?: string;
   placeholder?: string;
-  rules?: RegisterOptions;
   style?: CSSProperties;
   helperText?: string;
   control: Control<FieldValues>;
-  type?: string;
+  rules?: RegisterOptions<FieldValues>;
 } & Omit<TextFieldProps, 'helperText'>;
 
 export const TextInput: FC<TextInputProps> = ({
@@ -24,26 +24,21 @@ export const TextInput: FC<TextInputProps> = ({
   type = 'text',
   ...rest
 }) => {
-  const {
-    formState: { errors }
-  } = useFormContext();
-
   return (
     <Controller
       name={name}
       control={control}
       rules={rules}
-      render={({ field }) => {
-        const { ref, onChange, onBlur, value } = field;
+      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
         return (
           <TextField
-            inputRef={ref}
+            // inputRef={ref}
             label={label}
             type={type}
             placeholder={placeholder}
             variant='outlined'
-            error={!!errors[name]}
-            helperText={helperText || errors[name]?.message?.toString()}
+            error={!!error}
+            helperText={helperText || error?.message}
             fullWidth
             onChange={(event) => onChange(event.target.value)}
             onBlur={onBlur}

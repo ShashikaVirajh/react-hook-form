@@ -1,12 +1,12 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@mui/material';
 import { FC } from 'react';
 import { TextInput } from './components/text-input/text-input.component';
 
 export const App: FC = () => {
-  const { control, formState, handleSubmit } = useForm<TFormData>();
+  const { control, formState, handleSubmit } = useForm<FieldValues>();
 
-  const onSubmit: SubmitHandler<TFormData> = (data: TFormData) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues) => {
     console.log(data);
   };
 
@@ -37,9 +37,4 @@ export const App: FC = () => {
       </Button>
     </form>
   );
-};
-
-type TFormData = {
-  username: string;
-  password: string;
 };
