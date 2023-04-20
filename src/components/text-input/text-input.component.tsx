@@ -42,6 +42,7 @@ export const TextInput: FC<TextInputProps> = ({
             onChange={(event) => onChange(event.target.value)}
             onBlur={onBlur}
             value={value}
+            style={{ ...style }}
             {...rest}
           />
         );

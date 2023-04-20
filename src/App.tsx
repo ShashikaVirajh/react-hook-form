@@ -1,5 +1,5 @@
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { FC } from 'react';
 import { TextInput } from './components/text-input/text-input.component';
 
@@ -31,19 +31,30 @@ export const App: FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <TextInput name='username' control={control} label='Username' rules={usernameRules} />
+      <Box display='flex' flexDirection='column' alignItems='center'>
+        <Box marginTop='4rem' width='20%'>
+          <TextInput
+            name='username'
+            control={control}
+            label='Username'
+            rules={usernameRules}
+            style={{ marginBottom: '1.5rem' }}
+          />
 
-      <TextInput
-        name='password'
-        control={control}
-        label='Password'
-        type='password'
-        rules={passwordRules}
-      />
+          <TextInput
+            name='password'
+            control={control}
+            label='Password'
+            type='password'
+            rules={passwordRules}
+            style={{ marginBottom: '1.5rem' }}
+          />
 
-      <Button type='submit' disabled={formState.isSubmitting}>
-        Submit
-      </Button>
+          <Button type='submit' disabled={formState.isSubmitting}>
+            Submit
+          </Button>
+        </Box>
+      </Box>
     </form>
   );
 };
