@@ -11,10 +11,8 @@ export const App: FC = () => {
 
   const { control, formState, handleSubmit } = useForm<FieldValues>({ defaultValues: formData });
 
-  console.log(control);
-
   const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues) => {
-    console.log(data);
+    alert('Username: ' + data.username + ' \nPassword: ' + data.password);
   };
 
   const usernameRules = {
