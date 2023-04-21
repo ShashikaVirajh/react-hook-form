@@ -3,6 +3,8 @@ import { Box, Button } from '@mui/material';
 import { FC } from 'react';
 import { TextInput } from './components/text-input/text-input.component';
 import { DropdownInput } from './components/dropdown-input/dropdown-input.component';
+import { CheckBoxInput } from './components/checkbox-input/checkbox.component';
+import { RadioInput } from './components/radio-input/radio-input.component';
 
 const COUNTRIES = [
   { label: 'Sri Lanka', value: 'SL' },
@@ -16,7 +18,8 @@ export const App: FC = () => {
   const formData = {
     firstName: '',
     lastName: '',
-    country: ''
+    country: '',
+    agreement: false
   };
 
   const { control, handleSubmit, formState, getValues } = useForm<FieldValues>({
@@ -27,6 +30,8 @@ export const App: FC = () => {
     console.log('firstName: ' + data.firstName);
     console.log('lastName: ' + data.lastName);
     console.log('country: ' + data.country);
+    console.log('gender: ' + data.gender);
+    console.log('agreement: ' + data.agreement);
 
     console.log(getValues());
   };
@@ -45,6 +50,10 @@ export const App: FC = () => {
 
   const countryRules = {
     required: { value: true, message: 'Country is required' }
+  };
+
+  const genderRules = {
+    required: { value: true, message: 'Gender is required' }
   };
 
   return (
@@ -74,6 +83,25 @@ export const App: FC = () => {
             control={control}
             rules={countryRules}
           />
+
+          <Box display='flex' my='1rem' flexDirection='row' justifyContent='space-between'>
+            <RadioInput
+              name='gender'
+              control={control}
+              label='Male'
+              value='male'
+              rules={genderRules}
+            />
+            <RadioInput
+              name='gender'
+              control={control}
+              label='Female'
+              value='female'
+              rules={genderRules}
+            />
+          </Box>
+
+          <CheckBoxInput name='agreement' label='Accept the agreement' control={control} />
 
           <Button
             type='submit'
