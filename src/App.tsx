@@ -16,10 +16,10 @@ export const App: FC = () => {
   const formData = {
     firstName: '',
     lastName: '',
-    country: COUNTRIES[0].value
+    country: ''
   };
 
-  const { control, formState, handleSubmit, getValues } = useForm<FieldValues>({
+  const { control, handleSubmit, formState, getValues } = useForm<FieldValues>({
     defaultValues: formData
   });
 
@@ -75,7 +75,13 @@ export const App: FC = () => {
             rules={countryRules}
           />
 
-          <Button type='submit' disabled={formState.isSubmitting}>
+          <Button
+            type='submit'
+            variant='outlined'
+            fullWidth
+            sx={{ mt: '1rem' }}
+            disabled={formState.isSubmitting}
+          >
             Submit
           </Button>
         </Box>

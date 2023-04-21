@@ -16,23 +16,26 @@ export const DropdownInput: FC<DropdownInputProps> = ({
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { onChange, value } }) => {
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
         return (
-          <Select
-            label={label}
-            value={value}
-            variant='outlined'
-            fullWidth
-            onChange={(event) => onChange(event.target.value)}
-            style={{ ...style }}
-            {...rest}
-          >
-            {options.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
+          <>
+            <Select
+              value={value}
+              variant='outlined'
+              fullWidth
+              onChange={(event) => onChange(event.target.value)}
+              error={!!error}
+              style={{ ...style }}
+              {...rest}
+            >
+              <MenuItem value=''>{label}</MenuItem>
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </>
         );
       }}
     />
