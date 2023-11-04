@@ -19,7 +19,7 @@ export const App: FC = () => {
     defaultValues: formData
   });
 
-  console.log('form-values:', methods.watch());
+  console.log('form-values:', { ...methods.watch() });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log('firstName: ' + data.firstName);
