@@ -1,6 +1,6 @@
-import { MenuItem, Select } from '@mui/material';
 import { FC } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 type Option = {
   label: string;
@@ -10,21 +10,31 @@ type Option = {
 type Props = {
   name: string;
   options: Option[];
-  label?: string;
+  label: string;
 };
 
 export const InputDropdown: FC<Props> = ({ name, options, label }) => {
-  const { register } = useFormContext();
+  const { control } = useFormContext();
 
   return (
-    <Select {...register(name)} variant='outlined' fullWidth>
-      <MenuItem value=''>{label}</MenuItem>
+    <FormControl variant='outlined' fullWidth>
+      <InputLabel>{label}</InputLabel>
 
-      {options.map((option) => (
-        <MenuItem key={option.value} value={option.value}>
-          {option.label}
-        </MenuItem>
-      ))}
-    </Select>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue=''
+        render={({ field }) => (
+          <Select {...field} label={label}>
+            <MenuItem value=''>{label}</MenuItem>
+            {options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+        )}
+      />
+    </FormControl>
   );
 };

@@ -2,7 +2,6 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-fo
 import { Box, Button, Stack } from '@mui/material';
 import { FC } from 'react';
 import { TextInput } from './components/text-input/text-input.component';
-import { DropdownInput } from './components/dropdown-input/dropdown-input.component';
 import { CheckBoxInput } from './components/checkbox-input/checkbox.component';
 import { RadioInput } from './components/radio-input/radio-input.component';
 import { InputDropdown } from './components/input-dropdown/input-dropdown.component';
@@ -45,10 +44,6 @@ export const App: FC = () => {
     maxLength: { value: 20, message: 'Last Name must be at most 20 characters long' }
   };
 
-  const countryRules = {
-    required: { value: true, message: 'Country is required' }
-  };
-
   const genderRules = {
     required: { value: true, message: 'Gender is required' }
   };
@@ -82,14 +77,8 @@ export const App: FC = () => {
               <InputDropdown name='sport' options={SPORTS} label='Select Sport' />
             </Stack>
 
-            <Stack width='20rem'>
-              <DropdownInput
-                name='country'
-                label='Select Country'
-                options={COUNTRIES}
-                control={methods.control}
-                rules={countryRules}
-              />
+            <Stack width='20rem' mb={3}>
+              <InputDropdown name='country' options={COUNTRIES} label='Select Country' />
             </Stack>
 
             <Stack width='20rem' direction='row' justifyContent='space-between'>
