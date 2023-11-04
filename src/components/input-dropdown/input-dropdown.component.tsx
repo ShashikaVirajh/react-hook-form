@@ -10,15 +10,15 @@ type Option = {
 type Props = {
   name: string;
   options: Option[];
-  defaultValue?: string;
+  label?: string;
 };
 
-export const InputDropdown: FC<Props> = ({ name, options, defaultValue }) => {
+export const InputDropdown: FC<Props> = ({ name, options, label }) => {
   const { register } = useFormContext();
 
   return (
-    <Select {...register('sport')} variant='outlined' fullWidth defaultValue={defaultValue}>
-      <MenuItem value='0'>{defaultValue}</MenuItem>
+    <Select {...register(name)} variant='outlined' fullWidth>
+      <MenuItem value=''>{label}</MenuItem>
 
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

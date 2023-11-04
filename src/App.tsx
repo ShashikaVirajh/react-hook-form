@@ -79,7 +79,7 @@ export const App: FC = () => {
             </Stack>
 
             <Stack width='20rem' mb={3}>
-              <InputDropdown name='sport' options={SPORTS} />
+              <InputDropdown name='sport' options={SPORTS} label='Select Sport' />
             </Stack>
 
             <Stack width='20rem'>
