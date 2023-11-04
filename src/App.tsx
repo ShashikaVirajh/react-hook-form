@@ -1,39 +1,36 @@
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { Box, Button } from '@mui/material';
+import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Box, Button, Stack } from '@mui/material';
 import { FC } from 'react';
 import { TextInput } from './components/text-input/text-input.component';
 import { DropdownInput } from './components/dropdown-input/dropdown-input.component';
 import { CheckBoxInput } from './components/checkbox-input/checkbox.component';
 import { RadioInput } from './components/radio-input/radio-input.component';
-
-const COUNTRIES = [
-  { label: 'Sri Lanka', value: 'SL' },
-  { label: 'New Zealand', value: 'NZ' },
-  { label: 'United States', value: 'US' },
-  { label: 'Australia', value: 'AU' },
-  { label: 'England', value: 'ENG' }
-];
+import { InputDropdown } from './components/input-dropdown/input-dropdown.component';
 
 export const App: FC = () => {
   const formData = {
     firstName: '',
     lastName: '',
     country: '',
+    sport: '',
     agreement: false
   };
 
-  const { control, handleSubmit, formState, getValues } = useForm<FieldValues>({
+  const methods = useForm<FieldValues>({
     defaultValues: formData
   });
+
+  console.log('form-values:', methods.watch());
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log('firstName: ' + data.firstName);
     console.log('lastName: ' + data.lastName);
     console.log('country: ' + data.country);
+    console.log('sport: ' + data.sport);
     console.log('gender: ' + data.gender);
     console.log('agreement: ' + data.agreement);
 
-    console.log(getValues());
+    console.log(methods.getValues());
   };
 
   const firstNameRules = {
@@ -57,63 +54,99 @@ export const App: FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Box display='flex' flexDirection='column' alignItems='center'>
-        <Box marginTop='4rem' width='20%'>
-          <TextInput
-            name='firstName'
-            control={control}
-            label='First Name'
-            rules={firstNameRules}
-            style={{ marginBottom: '1.5rem' }}
-          />
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <Box>
+          <Stack alignItems='center'>
+            <Stack width='20rem'>
+              <TextInput
+                name='firstName'
+                control={methods.control}
+                label='First Name'
+                rules={firstNameRules}
+                style={{ marginBottom: '1.5rem' }}
+              />
+            </Stack>
 
-          <TextInput
-            name='lastName'
-            control={control}
-            label='Last Name'
-            rules={lastNameRules}
-            style={{ marginBottom: '1.5rem' }}
-          />
+            <Stack width='20rem'>
+              <TextInput
+                name='lastName'
+                control={methods.control}
+                label='Last Name'
+                rules={lastNameRules}
+                style={{ marginBottom: '1.5rem' }}
+              />
+            </Stack>
 
-          <DropdownInput
-            name='country'
-            label='Select Country'
-            options={COUNTRIES}
-            control={control}
-            rules={countryRules}
-          />
+            <Stack width='20rem' mb={3}>
+              <InputDropdown name='sport' options={SPORTS} />
+            </Stack>
 
-          <Box display='flex' my='1rem' flexDirection='row' justifyContent='space-between'>
-            <RadioInput
-              name='gender'
-              control={control}
-              label='Male'
-              value='male'
-              rules={genderRules}
-            />
-            <RadioInput
-              name='gender'
-              control={control}
-              label='Female'
-              value='female'
-              rules={genderRules}
-            />
-          </Box>
+            <Stack width='20rem'>
+              <DropdownInput
+                name='country'
+                label='Select Country'
+                options={COUNTRIES}
+                control={methods.control}
+                rules={countryRules}
+              />
+            </Stack>
 
-          <CheckBoxInput name='agreement' label='Accept the agreement' control={control} />
+            <Stack width='20rem' direction='row' justifyContent='space-between'>
+              <RadioInput
+                name='gender'
+                control={methods.control}
+                label='Male'
+                value='male'
+                rules={genderRules}
+              />
+              <RadioInput
+                name='gender'
+                control={methods.control}
+                label='Female'
+                value='female'
+                rules={genderRules}
+              />
+            </Stack>
 
-          <Button
-            type='submit'
-            variant='outlined'
-            fullWidth
-            sx={{ mt: '1rem' }}
-            disabled={formState.isSubmitting}
-          >
-            Submit
-          </Button>
+            <Stack width='20rem'>
+              <CheckBoxInput
+                name='agreement'
+                label='Accept the agreement'
+                control={methods.control}
+              />
+            </Stack>
+
+            <Stack width='20rem'>
+              <Button
+                type='submit'
+                variant='outlined'
+                fullWidth
+                sx={{ mt: '1rem' }}
+                disabled={methods.formState.isSubmitting}
+              >
+                Submit
+              </Button>
+            </Stack>
+          </Stack>
         </Box>
-      </Box>
-    </form>
+      </form>
+    </FormProvider>
   );
 };
+
+const COUNTRIES = [
+  { label: 'Sri Lanka', value: 'SL' },
+  { label: 'New Zealand', value: 'NZ' },
+  { label: 'United States', value: 'US' },
+  { label: 'Australia', value: 'AU' },
+  { label: 'South Africa', value: 'SA' }
+];
+
+const SPORTS = [
+  { label: 'Football', value: 'FB' },
+  { label: 'Rugby', value: 'RG' },
+  { label: 'Cricket', value: 'CK' },
+  { label: 'Hockey', value: 'HK' },
+  { label: 'Volleyball', value: 'VB' }
+];
